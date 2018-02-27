@@ -4,11 +4,29 @@ namespace Isen.DotNet.Library
 {
     public class Hello
     {
-        // Renvoie des salutations
-        public static string Greet(string name) 
+        /*private static string _world = "Hello, world";
+        public static string World
         {
-            string message = "Hello, " + name;
+            get { return _world; }
+            set { _world = value; }
+        }*/
+
+        public static string World { get; set; }
+            = "Hello, World";
+
+        // Renvoie des salutations
+        public static string Greet(string name)
+        {
+            var time = DateTime.Now.ToString("HH:mm");
+            var oldMessage = String.Format("Hello {0}, it is {1}.", name, time);
+            // string interpolation avec $
+            var message = $"Hello {name}, it is {time}.";
             return message;
         }
+
+        // expression body avec =>
+        // même symbole qu'une lambda expression
+        public static string GreetUpper(string name)
+            => Greet(name.ToUpper());
     }
 }
