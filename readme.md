@@ -70,7 +70,7 @@ Commit git :
 ## Push du projet sur un repo remote
 
 Créer un projet sur le serveur Git de votre choix (GitHub, GitLab)  
-L'url de mon repo est https://github.com/Clogema/mon-projet-dotnet.git  
+L'url de mon repo est https://user:password@github.com/Clogema/mon-projet-dotnet.git  
 `git remote add origin https://github.com/Clogema/mon-projet-dotnet.git`  
 Push, en indiquant que master correspond à origin/master  
 `git push -u origin master`
@@ -94,3 +94,9 @@ Dans le projet Library :
 * Créer une classe City
   * Id (int)
   * Name (string)
+
+## Refactoring : extraction d'un BaseModel
+
+Les classes Person et City ont une partie de leur logique commune.
+Extraire ce qui est commun dans une classe abstraite `BaseModel`.
+La classe de base sera dans le dossier Models/Base.
