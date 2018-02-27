@@ -5,11 +5,11 @@ using Isen.DotNet.Library.Repositories.Interfaces;
 
 namespace Isen.DotNet.Library.Repositories.InMemory
 {
-    public class InMemoryCityRepository : ICityRepository
+    public class InMemoryCityRepository : BaseRepository<City>, ICityRepository
     {
         private IList<City> _cityCollection;
 
-        public IList<City> CityCollection
+        public override IList<City> ModelCollection
         {
             get
             {
@@ -26,12 +26,5 @@ namespace Isen.DotNet.Library.Repositories.InMemory
                 return _cityCollection;
             }
         }
-        public IList<City> GetAll() => CityCollection;
-
-        public City Single(int id) =>
-            CityCollection.SingleOrDefault(c => c.Id == id);
-
-        public City Single(string name) =>
-            CityCollection.SingleOrDefault(c => c.Name == name);
     }
 }
