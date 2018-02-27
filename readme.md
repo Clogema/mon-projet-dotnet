@@ -100,3 +100,15 @@ Dans le projet Library :
 Les classes Person et City ont une partie de leur logique commune.
 Extraire ce qui est commun dans une classe abstraite `BaseModel`.
 La classe de base sera dans le dossier Models/Base.
+
+# Ajout de Repositories
+
+## CityRepository
+
+A la racine du projet Library, créer un dossier Repositories/InMemory  
+Ajouter une classe InMemoryCityRepository  
+Extraire l'interface de ce repo dans `Repositories/Interfaces/IInMemoryCityRepository.cs`
+
+## Refractoring interface : extraire IBaseRepository
+
+Déplacer les 3 méthodes de l'interface
