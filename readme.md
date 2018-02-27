@@ -26,5 +26,8 @@ Depuis le dossier Isen.DotNet :
 ## Commit Git
 
 Depuis la racine du projet :  
-`git status`  
-`git add .`
+Etat des fichiers (non trackés) : `git status`  
+Tracker les fichiers : `git add .`  
+Ils sont maintenant suivis : `git status`  
+Commit : `git commit -m "Initial commit"`  
+Prendre en compte les modifs (mais pas les ajouts de fichiers) au moment du commit (donc faire un add et un commit en même temps) : `git commit -a -m "updated readme"`
