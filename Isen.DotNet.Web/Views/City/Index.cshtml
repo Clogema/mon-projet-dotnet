@@ -1,0 +1,36 @@
+﻿@using Isen.DotNet.Library.Models.Implementation;
+@{
+    ViewData["Title"] = "City";
+}
+@model IEnumerable<City>
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>City <small>/city/index</small></h1>
+        <p>Ceci est le contenu de la vue City, action Index</p>
+    </div>
+</div>
+<div class=row>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var city in Model)
+            {
+                <tr>
+                    <td>@city.Id</td>
+                    <td>@city.Name</td>
+                    <td>
+                        <a asp-controller="City" asp-action="Detail" asp-route-id="@city.Id">Editer</a>&nbsp;|&nbsp;
+                        <a asp-controller="City" asp-action="Delete" asp-route-id="@city.Id">Supprimer</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
