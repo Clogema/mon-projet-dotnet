@@ -1,4 +1,5 @@
 ﻿using System;
+using Isen.DotNet.Library.Models.Implementation;
 using Isen.DotNet.Library.Repositories.InMemory;
 using Isen.DotNet.Library.Repositories.Interfaces;
 
@@ -11,50 +12,47 @@ namespace Isen.DotNet.ConsoleApp
             ICityRepository cityRepository = new InMemoryCityRepository();
             IPersonRepository personRepository = new InMemoryPersonRepository(cityRepository);
 
-            // Toutes les villes
-            Console.WriteLine("----- Toutes les villes -----");
-            foreach (var c in cityRepository.GetAll())
-                Console.WriteLine(c);
+            // Etat Initial des villes
+            Console.WriteLine("\n------ Etat Initial -----");
+            foreach (var c in cityRepository.GetAll()) Console.WriteLine(c);
 
-            // Toutes les personnes
-            Console.WriteLine("\n----- Toutes les personnes -----");
-            foreach (var p in personRepository.GetAll())
-                Console.WriteLine(p);
+            // Ajouter une ville
+            Console.WriteLine("\n------ Ajouter une ville -----");
+            var cannes = new City { Name = "Cannes" };
+            cityRepository.Update(cannes);
 
-            // Toutes les personnes nées après 1996
-            Console.WriteLine("\n----- Toutes les personnes nées après 1996 -----");
-            var personBornAfter = personRepository.Find(p =>
-            p.BirthDate.HasValue &&
-            p.BirthDate.Value.Year >= 1997);
-            foreach (var p in personBornAfter)
-                Console.WriteLine(p);
+            foreach (var c in cityRepository.GetAll()) Console.WriteLine(c);
 
-            // Trouver toutes les peronnes avec age > 20
-            Console.WriteLine("\n----- Trouver toutes les peronnes avec age > 20 -----");
-            var personOlderThan = personRepository
-                .Find(p =>
-                    p.Age.HasValue &&
-                    p.Age.Value >= 20);
-            foreach (var p in personOlderThan)
-                Console.WriteLine(p);
-
-            // Toutes les villes qui contiennent un e
-            Console.WriteLine("\n----- Toutes les villes qui contiennent un e -----");
-            var citiesWithE = cityRepository
-                .Find(c =>
-                    // IndexOf : équivalent de Contains()
-                    // Mais avec paramètre CurrentCultureIgnoreCase
-                    c.Name.IndexOf("e", StringComparison.CurrentCultureIgnoreCase) >= 0);
-            foreach (var c in citiesWithE)
-                Console.WriteLine(c);
-
-            // Effacer une ville
-            Console.WriteLine("\n----- Effacer une ville -----");
+            // Mettre à jour une ville
+            Console.WriteLine("\n------ Mettre à jour une ville -----");
             var evian = cityRepository.Single("Evian");
-            cityRepository.Delete(evian);
-            foreach (var c in cityRepository.GetAll())
-                Console.WriteLine(c);
+            if (evian != null)
+            {
+                evian.Name += " les bains";
+                cityRepository.Update(evian);
+                foreach (var c in cityRepository.GetAll()) Console.WriteLine(c);
+            }
 
+            // ajout et mis à jour dans une même update
+            Console.WriteLine("\n------ Ajout et mis à jour dans une même update -----");
+            var lyon = new City { Name = "Lyon" };
+            if (evian != null) evian.Name = "Evian";
+            cityRepository.UpdateRange(lyon, evian);
+            foreach (var c in cityRepository.GetAll()) Console.WriteLine(c);
+
+            // Ajout et mise à jour d'une personne
+            Console.WriteLine("\n------ Ajout et mis à jour d'une personne -----");
+            var marine = new Person
+            {
+                FirstName = "Marine",
+                LastName = "Accart",
+                BirthDate = new DateTime(1996, 5, 31),
+                City = cityRepository.Single("Toulon")
+            };
+            var person2 = personRepository.Single(2);
+            person2.BirthDate = person2.BirthDate.Value.AddYears(-100);
+            personRepository.UpdateRange(marine, person2);
+            foreach (var p in personRepository.GetAll()) Console.WriteLine(p);
         }
     }
 }
