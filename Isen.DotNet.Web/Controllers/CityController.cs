@@ -40,8 +40,18 @@ namespace Isen.DotNet.Web.Controllers
         [HttpPost]
         public IActionResult Detail(City model)
         {
-            _logger.LogWarning($"POST : {model}");
             _repository.Update(model);
+            _repository.Save();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            if (id != null)
+            {
+                _repository.Delete(id.Value);
+                _repository.Save();
+            }
             return RedirectToAction("Index");
         }
     }

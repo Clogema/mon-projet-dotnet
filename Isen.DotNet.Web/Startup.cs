@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Isen.DotNet.Library.Data;
+using Isen.DotNet.Library.Repositories.DbContext;
 using Isen.DotNet.Library.Repositories.InMemory;
 using Isen.DotNet.Library.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,9 +27,24 @@ namespace Isen.DotNet.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Utiliser Entity Framework
+            services.AddDbContext<ApplicationDbContext>(options =>
+                // Utiliser le provider Sqlite
+                options.UseSqlite(
+                    // Utiliser la clé DefaultConnection du fichier de config
+                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+
             // Injection de dépendances
-            services.AddScoped<ICityRepository, InMemoryCityRepository>();
+            // -------------------
+
+            // Injection des repo
+            services.AddScoped<ICityRepository, DbContextCityRepository>();
+            services.AddScoped<IPersonRepository, DbContextPersonRepository>();
+
+            // Injection d'autres servies
+            services.AddScoped<SeedData>();
+
             // AddTransient : nouvelle référence à chaque appel 
             // AddSingleton : même référence pour toute l'appli y compris entre diffénts appels http
             // AddScoped : même référence mais limitée à la durée de vie dun appel http

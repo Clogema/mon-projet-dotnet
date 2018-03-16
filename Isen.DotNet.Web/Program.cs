@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Isen.DotNet.Library.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Isen.DotNet.Web
@@ -14,7 +16,20 @@ namespace Isen.DotNet.Web
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            // Récupérer une instance de SeedData
+            // en appelant le moteur d'ninjection de dépandences
+            using (var scope = host.Services.CreateScope())
+            {
+                var seed = scope.ServiceProvider.GetService<SeedData>;
+                seed.DropDatabase();
+                seed.CreateDatabase();
+                seed.AddCities();
+                seed.AddPersons();
+            }
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
