@@ -3,6 +3,7 @@ using System.Linq;
 using Isen.DotNet.Library.Models.Base;
 using Isen.DotNet.Library.Models.Implementation;
 using Isen.DotNet.Library.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Isen.DotNet.Library.Repositories.InMemory
 {
@@ -10,6 +11,10 @@ namespace Isen.DotNet.Library.Repositories.InMemory
         where T : BaseModel
     {
         protected IList<T> _modelCollection;
+
+        public _BaseInMemoryRepository(ILogger<BaseRepository<T>> logger) : base(logger)
+        {
+        }
 
         public int NewId()
         {

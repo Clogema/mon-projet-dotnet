@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Isen.DotNet.Library.Models.Implementation;
 using Isen.DotNet.Library.Repositories.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace Isen.DotNet.Library.Repositories.InMemory
 {
@@ -9,7 +10,7 @@ namespace Isen.DotNet.Library.Repositories.InMemory
     {
         private ICityRepository _cityRepository;
         // Constructeur avec pattern d'injection de dépendances (DI)
-        public InMemoryPersonRepository(ICityRepository cityRepository)
+        public InMemoryPersonRepository(ILogger<InMemoryPersonRepository> logger, ICityRepository cityRepository) : base(logger)
         {
             _cityRepository = cityRepository;
         }

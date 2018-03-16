@@ -283,3 +283,28 @@ Dans la vue Detail.cshtml, pérciser le type du modèle (City), et injecter les 
 Dans le controleur, ajouter une surcharge de Detail, avec City
 
 ## Logging
+
+Dans le projet Web, classe Startup, méthode Configure :
+Injecter un provider de logging.
+
+En cas de namespace non trouvé, depuis le projet concerné, exécuter :
+`dotnet add package Microsoft.Extensions.Logging`
+
+Dans le projet Library, BaseRepository :
+
+Ajouter un constructeur avec ILogger<BaseRepository<T>>
+
+Le stocker dans un membre protected
+
+Corriger les erreurs dues à l'ajout de ce constructeur :
+
+Constructeur dans BaseInMemoryRepository
+
+Aussi dans InMemoryCityRepository
+Aussi dans InMemoryPersonRepository
+
+Injecter aussi le logger dans CityController (Web) :
+
+Ajouter le ILogger dans la signature du constructeur
+Stocker dans un membre
+L'utiliser dans Detail (POST)
